@@ -1,10 +1,10 @@
 """
 
-ifnb_de:
+ifnb_de:A dataframe of differentially expressed genes generated using the FindMarkers function for each cluster from the Kang 2018 IFNB dataset
 
-pbmc_markers:
+pbmc_markers:A dataframe of marker genes generated using the
 
-topp_data:
+topp_data:A dataframe of of sample toppData results
 """
 from pandas import read_csv
 import os
