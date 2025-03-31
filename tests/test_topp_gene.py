@@ -21,7 +21,7 @@ def test_toppsave():
     }
     data=pd.DataFrame(data)
     shutil.rmtree(path=os.path.expanduser('~') + os.sep + 'topppy', ignore_errors=True)
-    os.mkdir(r'C:\\Users\\lenovo\\topppy')
+    os.mkdir(os.path.expanduser('~') + os.sep + 'topppy')
     topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='xlsx')
     topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='csv')
     topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='tsv')
