@@ -1,12 +1,14 @@
 import pandas as pd
-from topppy import get_topp_cat
-from topppy import toppsave
+from topppy import get_topp_cats
+from topppy import topp_save
 import shutil
 import os
 
+import requests
+import json
 
 def test_get_topp_cat():
-    assert get_topp_cat()==["GeneOntologyMolecularFunction","GeneOntologyBiologicalProcess",
+    assert get_topp_cats() == ["GeneOntologyMolecularFunction", "GeneOntologyBiologicalProcess",
     "GeneOntologyCellularComponent","HumanPheno","MousePheno","Domain","Pathway",
     "Pubmed","Interaction","Cytoband","TFBS","GeneFamily","Coexpression","CoexpressionAtlas",
     "ToppCell","Computational","MicroRNA","Drug","Disease"]
@@ -20,17 +22,17 @@ def test_toppsave():
     data=pd.DataFrame(data)
     shutil.rmtree(path=os.path.expanduser('~') + os.sep + 'topppy', ignore_errors=True)
     os.mkdir(r'C:\\Users\\lenovo\\topppy')
-    toppsave(topp_data=data,filename='test_toppsave',save_dir=os.path.join(os.path.expanduser('~'), 'topppy'),split=False,format_1='xlsx')
-    toppsave(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format_1='csv')
-    toppsave(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format_1='tsv')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='xlsx')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='csv')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='tsv')
 
     assert os.path.exists(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.xlsx") and os.path.getsize(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.xlsx")
     assert os.path.exists(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.csv") and os.path.getsize(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.csv")
     assert os.path.exists(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.tsv") and os.path.getsize(os.path.expanduser('~') + os.sep + 'topppy' + os.sep + "test_toppsave.tsv")
 
-    toppsave(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'),split=True, format_1='xlsx')
-    toppsave(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'),split=True, format_1='csv')
-    toppsave(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'),split=True, format_1='tsv')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=True, format='xlsx')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=True, format='csv')
+    topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=True, format='tsv')
     for gr in data['Cluster'].unique():
         assert os.path.exists(
             os.path.expanduser('~') + os.sep + 'topppy' + os.sep + f"test_toppsave_{gr}.xlsx") and os.path.getsize(
@@ -43,3 +45,8 @@ def test_toppsave():
             os.path.expanduser('~') + os.sep + 'topppy' + os.sep + f"test_toppsave_{gr}.tsv")
 
 
+def test_get_topp_gene():
+    url = "https://toppgene.cchmc.org/API/lookup"
+    headers = {'Content-Type': 'application/json'}
+    data = {"Symbols":["FLDB","APOE","ENSG00000113196","ENSMUSG00000020287"]}
+    response = json.loads(requests.post(url, json=data, headers=headers).text)

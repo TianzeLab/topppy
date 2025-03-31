@@ -1,2 +1,2 @@
-# toppgene database function
+# ToppGene database function
 ::: topppy.topp_gene       

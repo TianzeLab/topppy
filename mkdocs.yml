@@ -1,4 +1,4 @@
-site_name: toppPy Documentation
+site_name: ToppPy Documentation
 theme: readthedocs
 plugins:
 - search

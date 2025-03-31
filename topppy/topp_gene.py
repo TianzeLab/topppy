@@ -1,8 +1,8 @@
 import csv
 import os
+from pandas import DataFrame
 
-
-def get_topp_cat()->list:
+def get_topp_cats()->list:
     """
     Get a list of ToppFun categories
 
@@ -10,7 +10,8 @@ def get_topp_cat()->list:
 
     Examples:
 
-        get_topp_cat()
+        from topppy import get_topp_cats
+        get_topp_cats()
 
 
     """
@@ -21,22 +22,23 @@ def get_topp_cat()->list:
     return toppCats
 
 
-def toppsave(topp_data,filename:str,save_dir:str,split:bool,format_1:str)->None:
+def topp_save(topp_data: DataFrame, filename:str, save_dir:str, split:bool, format:str)->None:
     """
-    Save toppData results (optionally) split by celltype/cluster
+    Save topp_data results (optionally) split by celltype/cluster
 
     Args:
         topp_data: Results from toppFun as a dataframe
-        filename: filename prefix for each split file
-        save_dir: the directory to save files
+        filename: File name prefix for each split file
+        save_dir: The directory to save files
         split: Boolean, whether to split the dataframe by celltype/cluster
-        format_1: Saved file format, one of ["xlsx", "csv", "tsv"]
+        format: Saved file format, one of ["xlsx", "csv", "tsv"]
 
     Returns: None
 
     Examples:
 
-        toppsave(topp_data, filename="toppFun_results", split = TRUE, format_1 = "xlsx")
+        from topppy import topp_save, topp_data
+        topp_save(topp_data, filename="toppFun_results", split = TRUE, format = "xlsx")
 
    """
 
@@ -47,39 +49,39 @@ def toppsave(topp_data,filename:str,save_dir:str,split:bool,format_1:str)->None:
         os.makedirs(save_dir, exist_ok=True)
 
     if not split:
-        #不分组
-        if format_1=='xlsx':
+        # Not grouped
+        if format== 'xlsx':
             if filename is None:
-                filename='toppData.xlxs'
+                filename= 'toppData.xlxs'
             else:
-                filename=f'{filename}.xlsx'
-            path=os.path.join(save_dir,filename)
+                filename= f'{filename}.xlsx'
+            path=os.path.join(save_dir, filename)
             topp_data.to_excel(path,header=True,index=False,sheet_name='toppData')
-            print('Saving file:',filename,'\n')
+            print('Saving file:', filename, '\n')
 
-        elif format_1=='csv':
+        elif format== 'csv':
             if filename is None:
-                filename='toppData.csv'
+                filename= 'toppData.csv'
             else:
-                filename=f'{filename}.csv'
+                filename= f'{filename}.csv'
             path = os.path.join(save_dir, filename)
             topp_data.to_csv(path,sep=',',quoting=csv.QUOTE_MINIMAL,header=True,index=False)
-            print('Saving file:',filename,'\n')
+            print('Saving file:', filename, '\n')
 
-        elif format_1=='tsv':
+        elif format== 'tsv':
             if filename is None:
-                filename='toppData.tsv'
+                filename= 'toppData.tsv'
             else:
-                filename=f'{filename}.tsv'
+                filename= f'{filename}.tsv'
             path = os.path.join(save_dir, filename)
             topp_data.to_csv(path,sep='\t',quoting=csv.QUOTE_MINIMAL,header=True,index=False)
-            print('Saving file:',filename,'\n')
+            print('Saving file:', filename, '\n')
     else:
-        #分组
-        # 遍历cluster
+        # Grouped
+        # Traverse the cluster
         for gr in topp_data['Cluster'].unique():
             tmp_toppdata=topp_data.loc[topp_data.Cluster==gr]
-            if format_1 == 'xlsx':
+            if format == 'xlsx':
                 if filename is None:
                     current_filename = f'toppData_{gr}.xlsx'
                 else:
@@ -88,17 +90,17 @@ def toppsave(topp_data,filename:str,save_dir:str,split:bool,format_1:str)->None:
                 tmp_toppdata.to_excel(path,header=True,index=False,sheet_name='toppData')
                 print('Saving file:', current_filename, '\n')
 
-            elif format_1 == 'csv':
+            elif format == 'csv':
                 if filename is None:
                     current_filename = f'toppData_{gr}.csv'
                 else:
                     current_filename = f'{filename}_{gr}.csv'
-                # 将数据写入该格式中
+                # Write the data into that format
                 path = os.path.join(save_dir, current_filename)
                 tmp_toppdata.to_csv(path, sep=',', quoting=csv.QUOTE_MINIMAL, header=True, index=False)
                 print('Saving file:', current_filename, '\n')
 
-            elif format_1 == 'tsv':
+            elif format == 'tsv':
                 if filename is None:
                     current_filename = f'toppData_{gr}.tsv'
                 else:
