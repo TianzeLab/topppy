@@ -22,23 +22,23 @@ def get_topp_cats()->list:
     return toppCats
 
 
-def topp_save(topp_data: DataFrame, filename:str, save_dir:str, split:bool, format:str)->None:
+def topp_save(topp_data: DataFrame, filename:str = None, save_dir:str = None, split:bool = False, format:str = "xlsx")->None:
     """
     Save topp_data results (optionally) split by celltype/cluster
 
     Args:
         topp_data: Results from toppFun as a dataframe
-        filename: File name prefix for each split file
-        save_dir: The directory to save files
-        split: Boolean, whether to split the dataframe by celltype/cluster
-        format: Saved file format, one of ["xlsx", "csv", "tsv"]
+        filename: File name prefix for each split file. Default: Current working directory
+        save_dir: The directory to save files. Default: $HOME
+        split: Boolean, whether to split the dataframe by celltype/cluster. Default: False
+        format: Saved file format, one of ["xlsx", "csv", "tsv"]. Default: "xlsx"
 
     Returns: None
 
     Examples:
 
         from topppy import topp_save, topp_data
-        topp_save(topp_data, filename="toppFun_results", split = TRUE, format = "xlsx")
+        topp_save(topp_data, filename="toppFun_results", split = True, format = "xlsx")
 
    """
 
@@ -46,7 +46,7 @@ def topp_save(topp_data: DataFrame, filename:str, save_dir:str, split:bool, form
 
     if save_dir is None:
         save_dir=os.getcwd()
-        os.makedirs(save_dir, exist_ok=True)
+    os.makedirs(save_dir, exist_ok=True)
 
     if not split:
         # Not grouped
