@@ -1,6 +1,7 @@
 import pandas as pd
 from topppy import get_topp_cats
 from topppy import topp_save
+from topppy import get_entrez
 import shutil
 import os
 
@@ -19,7 +20,8 @@ def test_toppsave():
         "Score": [0.1, 0.5, 0.3],
         "Cluster": ["CellType1", "CellType1", "CellType2"]
     }
-    data=pd.DataFrame(data)
+    data = pd.DataFrame(data)
+
     shutil.rmtree(path=os.path.expanduser('~') + os.sep + 'topppy', ignore_errors=True)
     os.mkdir(os.path.expanduser('~') + os.sep + 'topppy')
     topp_save(topp_data=data, filename='test_toppsave', save_dir=os.path.join(os.path.expanduser('~'), 'topppy'), split=False, format='xlsx')
@@ -50,3 +52,9 @@ def test_get_topp_gene():
     headers = {'Content-Type': 'application/json'}
     data = {"Symbols":["FLDB","APOE","ENSG00000113196","ENSMUSG00000020287"]}
     response = json.loads(requests.post(url, json=data, headers=headers).text)
+
+
+def test_get_entrez():
+    genes=["IFNG", "FOXP3"]
+    a=get_entrez(genes)
+    assert type(a)==list

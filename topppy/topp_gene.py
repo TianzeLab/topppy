@@ -1,6 +1,8 @@
 import csv
+import json
 import os
 from pandas import DataFrame
+import requests
 
 def get_topp_cats()->list:
     """
@@ -108,3 +110,27 @@ def topp_save(topp_data: DataFrame, filename:str = None, save_dir:str = None, sp
                 path = os.path.join(save_dir, current_filename)
                 tmp_toppdata.to_csv(path, sep='\t', quoting=csv.QUOTE_MINIMAL, header=True, index=False)
                 print('Saving file:', current_filename, '\n')
+
+def get_entrez(genes:list)->list:
+    """
+    Convert genes into Entrez format
+
+    Args:
+        genes:A list of genes
+
+    Returns: a vector of genes in Entrez format
+
+    Examples:
+
+        from topppy import get_entrez
+        get_entrez(genes)
+
+    """
+    url = "https://toppgene.cchmc.org/API/lookup"
+    payload={'Symbols':genes}
+    headers = {'Content-Type': 'application/json'}
+    r=json.loads(requests.post(url,json=payload,headers=headers).text)
+    new_gene_list=[]
+    for g in r['Genes']:
+        new_gene_list.append(g['Entrez'])
+    return new_gene_list
