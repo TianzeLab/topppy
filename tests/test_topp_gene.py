@@ -2,6 +2,7 @@ import pandas as pd
 from topppy import get_topp_cats
 from topppy import topp_save
 from topppy import get_entrez
+from topppy import process_markers,get_topp,topp_fun
 import shutil
 import os
 
@@ -57,4 +58,16 @@ def test_get_topp_gene():
 def test_get_entrez():
     genes=["IFNG", "FOXP3"]
     a=get_entrez(genes)
-    assert type(a)==list
+    assert isinstance(a,list)
+
+
+def test_topp_fun():
+    ds=pd.DataFrame({
+        'celltype': ['A', 'A', 'B', 'B'],
+        'gene': ['G1', 'G2', 'G3', 'G4'],
+        'p_val_adj': [0.01, 0.02, 0.03, 0.04],
+        'avg_log2FC': [1.5, -1.2, 0.8, 2.0]
+    })
+    a=topp_fun(ds,topp_categories=None,cluster_col="celltype",gene_col="gene",p_val_col="p_val_adj",logFC_col="avg_log2FC")
+    assert isinstance(a,pd.DataFrame)
+    assert 'Cluster' in a.columns
