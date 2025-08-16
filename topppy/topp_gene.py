@@ -139,7 +139,7 @@ def get_entrez(genes:list)->list:
     return new_gene_list
 
 
-def process_markers(markers:pd.DataFrame,cluster_col:str,gene_col:str,p_val_col:str,logFC_col:str,
+def process_markers(markers:DataFrame,cluster_col:str,gene_col:str,p_val_col:str,logFC_col:str,
                    num_genes:int = 1000,pval_cutoff:float = 0.5,fc_cutoff:float = 0,fc_filter:str ='ALL',genes_submit_cutoff=1000)->dict:
 
     markers_list=dict()
@@ -166,7 +166,7 @@ def process_markers(markers:pd.DataFrame,cluster_col:str,gene_col:str,p_val_col:
 
 
 def get_topp(gene_list:list,key_type:str,topp_categories:list,
-             max_results:int = 10,min_genes:int = 5,max_genes:int = 1500,pval_cutoff:float = 0.05,correction:str = 'FDR')->pd.DataFrame:
+             max_results:int = 10,min_genes:int = 5,max_genes:int = 1500,pval_cutoff:float = 0.05,correction:str = 'FDR')->DataFrame:
 
     if key_type != 'ENTREZ':
         new_gene_list = get_entrez(gene_list)
@@ -199,12 +199,12 @@ def get_topp(gene_list:list,key_type:str,topp_categories:list,
         for k in keepers:
             row[k]=da.get(k)
         return_df.append(row)
-    return pd.DataFrame(return_df)
+    return DataFrame(return_df)
 
 
-def topp_fun(markers:pd.DataFrame,topp_categories:list =None,cluster_col:str = 'cluster',gene_col:str = 'gene',p_val_col:str = 'adj_p_val_col',
-             logFC_col:str = 'avg_logFC',num_genes:int = 1000,pval_cutoff:float = 0.5,fc_cutoff:float = 0,fc_filter:str = 'ALL',clusters=None,
-             correction:str = 'FDR',key_type:str = 'SYMBOL',min_genes:int = 2,max_genes:int = 1500,max_results:int = 50)->pd.DataFrame:
+def topp_fun(markers:DataFrame,topp_categories:list =None,cluster_col:str = 'cluster',gene_col:str = 'gene',p_val_col:str = 'adj_p_val_col',
+             logFC_col:str = 'avg_logFC',num_genes:int = 1000,pval_cutoff:float = 0.5,fc_cutoff:float = 0,fc_filter:str = 'ALL',clusters:list=None,
+             correction:str = 'FDR',key_type:str = 'SYMBOL',min_genes:int = 2,max_genes:int = 1500,max_results:int = 50)->DataFrame:
     """
 
     The topp_fun() function takes a DataFrame and selects genes to use in querying ToppGene.
@@ -231,9 +231,8 @@ def topp_fun(markers:pd.DataFrame,topp_categories:list =None,cluster_col:str = '
 
     Examples:
 
-        import pandas as pd
-        ifnb_de=pd.read_csv("ifnb_de.csv")
-        toppdata=topp_fun(ifnb_de,topp_categories=None,cluster_col='celltype',gene_col='gene',p_val_col='p_val_adj',logFC_col='avg_log2Fc')
+        from topppy import *
+        toppdata=topp_fun(ifnb_de,topp_categories=None,cluster_col='celltype',gene_col='gene',p_val_col='p_val_adj',logFC_col='avg_log2FC')
 
     """
 
@@ -244,12 +243,12 @@ def topp_fun(markers:pd.DataFrame,topp_categories:list =None,cluster_col:str = '
     Terms of Use: https://toppgene.cchmc.org/navigation/termsofuse.jsp
     Citations: https://toppgene.cchmc.org/help/publications.jsp'''
     print(msg)
-    markers=pd.DataFrame(markers)
+    markers=DataFrame(markers)
     if cluster_col not in markers.columns:
         raise ValueError(f'Cluster column {cluster_col} not found in data.Please specify')
     if fc_filter not in ['ALL','UPREG','DOWNREG']:
         raise ValueError("please select one of ['ALL','UPREG','DOWNREG'] for fc_filter")
-    if isinstance(markers,pd.DataFrame):
+    if isinstance(markers,DataFrame):
         marker_list=process_markers(
             markers=markers,
             cluster_col=cluster_col,
@@ -273,7 +272,7 @@ def topp_fun(markers:pd.DataFrame,topp_categories:list =None,cluster_col:str = '
     for col in marker_list.keys():
         if col not in ['rank','X']:
             gene_list=marker_list[col]
-            if len([g for g in gene_list if g is not None and g !='nan'])>=min_genes:
+            if len([g for g in gene_list if pd.notna(g)])>=min_genes:
                 print('Working on cluster:',col)
                 d=get_topp(
                     gene_list=gene_list,

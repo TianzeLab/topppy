@@ -1,8 +1,5 @@
 import pandas as pd
-from topppy import get_topp_cats
-from topppy import topp_save
-from topppy import get_entrez
-from topppy import process_markers,get_topp,topp_fun
+from topppy import *
 import shutil
 import os
 
@@ -62,12 +59,7 @@ def test_get_entrez():
 
 
 def test_topp_fun():
-    ds=pd.DataFrame({
-        'celltype': ['A', 'A', 'B', 'B'],
-        'gene': ['G1', 'G2', 'G3', 'G4'],
-        'p_val_adj': [0.01, 0.02, 0.03, 0.04],
-        'avg_log2FC': [1.5, -1.2, 0.8, 2.0]
-    })
-    a=topp_fun(ds,topp_categories=None,cluster_col="celltype",gene_col="gene",p_val_col="p_val_adj",logFC_col="avg_log2FC")
-    assert isinstance(a,pd.DataFrame)
-    assert 'Cluster' in a.columns
+    toppdata = topp_fun(ifnb_de, topp_categories=None, cluster_col='celltype', gene_col='gene', p_val_col='p_val_adj',
+                        logFC_col='avg_log2FC')
+    assert isinstance(toppdata,pd.DataFrame)
+    assert 'Cluster' in toppdata.columns
