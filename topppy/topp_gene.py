@@ -203,7 +203,7 @@ def get_topp(gene_list:list,key_type:str,topp_categories:list,
 
 
 def topp_fun(markers:DataFrame,topp_categories:list =None,cluster_col:str = 'cluster',gene_col:str = 'gene',p_val_col:str = 'adj_p_val_col',
-             logFC_col:str = 'avg_logFC',num_genes:int = 1000,pval_cutoff:float = 0.5,fc_cutoff:float = 0,fc_filter:str = 'ALL',clusters:list=None,
+             logFC_col:str = 'avg_logFC',num_genes:int = 1000,pval_cutoff:float = 0.5,fc_cutoff:float = 0,fc_filter:str = 'ALL',clusters:list = None,
              correction:str = 'FDR',key_type:str = 'SYMBOL',min_genes:int = 2,max_genes:int = 1500,max_results:int = 50)->DataFrame:
     """
 
@@ -246,6 +246,8 @@ def topp_fun(markers:DataFrame,topp_categories:list =None,cluster_col:str = 'clu
     markers=DataFrame(markers)
     if cluster_col not in markers.columns:
         raise ValueError(f'Cluster column {cluster_col} not found in data.Please specify')
+    if clusters is not None:
+        markers=markers[markers[cluster_col].isin(clusters)]
     if fc_filter not in ['ALL','UPREG','DOWNREG']:
         raise ValueError("please select one of ['ALL','UPREG','DOWNREG'] for fc_filter")
     if isinstance(markers,DataFrame):
