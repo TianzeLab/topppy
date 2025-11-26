@@ -63,3 +63,4 @@ def test_topp_fun():
                         logFC_col='avg_log2FC')
     assert isinstance(toppdata,pd.DataFrame)
     assert 'Cluster' in toppdata.columns
+
