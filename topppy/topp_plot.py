@@ -1,4 +1,5 @@
 import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -11,7 +12,7 @@ import textwrap
 def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = None, cluster_col: str = "Cluster",
               num_terms: int = 10, p_val_adj: str = "BH", p_val_display: str = "log",
               save: bool = False, save_dir: str = None, width: int = 5, height: int = 6, file_prefix: str = None,
-              y_axis_text_size: int = 8, combine: bool = False, ncols: int = None):
+              y_axis_text_size: int = 8, combine: bool = False, ncols: int = None) -> ggplot | dict:
     '''
     Create a dotplot from toppdata results
 
@@ -32,7 +33,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
         combine: If TRUE and multiple clusters selected, return a patchwork object of all plots; if FALSE return list of plots
         ncols: If patchwork element returned, number of columns for subplots
 
-    Returns: ggplot
+    Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects
 
     '''
     test_cols=["Category","Name","PValue","GenesInTerm","GenesInQuery","GenesInTermInQuery"]
@@ -183,7 +184,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
 
 def topp_balloon(toppdata: DataFrame, categories: list = None, balloons: int = 3, x_axis_text_size: int = 6,
                  cluster_col: str = "Cluster", filename: str = None, save: bool = False, height: int = 5,
-                 width: int = 10):
+                 width: int = 10) -> ggplot|dict:
     '''
     Create a balloon plot from toppdata results
 
@@ -198,7 +199,7 @@ def topp_balloon(toppdata: DataFrame, categories: list = None, balloons: int = 3
         height: Height of the saved balloon plot
         width: Width of the saved balloon plot
 
-    Returns: ggplot
+    Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects
 
     '''
     if categories is None:
