@@ -1,13 +1,17 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-from plotnine import *
-from topppy.topp_gene import *
+import os
+from pandas import DataFrame, Categorical
+from plotnine import ggplot, geom_segment, aes, geom_point, scale_color_cmap, theme_bw, ylab, ggtitle, scale_y_discrete, \
+    labs, theme, element_text, xlab, scale_x_discrete, element_rect
 import textwrap
 
 
-def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:str = "Cluster",num_terms:int = 10,p_val_adj:str = "BH",p_val_display:str = "log",
-              save:bool = False,save_dir:str = None,width:int = 5,height:int = 6,file_prefix:str = None,y_axis_text_size:int = 8,combine:bool = False,ncols:int = None):
+def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = None, cluster_col: str = "Cluster",
+              num_terms: int = 10, p_val_adj: str = "BH", p_val_display: str = "log",
+              save: bool = False, save_dir: str = None, width: int = 5, height: int = 6, file_prefix: str = None,
+              y_axis_text_size: int = 8, combine: bool = False, ncols: int = None):
     '''
     Create a dotplot from toppdata results
 
@@ -34,20 +38,24 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
     test_cols=["Category","Name","PValue","GenesInTerm","GenesInQuery","GenesInTermInQuery"]
     for t in test_cols:
         if t not in toppdata.columns:
-            print("The column",t,"is missing from the toppData,please correct and retry." )
+            raise ValueError("The column",t,"is missing from the toppData,please correct and retry." )
     GROUPBY_COL=cluster_col
     if GROUPBY_COL not in toppdata.columns:
-        print("Invalid cluster column:",GROUPBY_COL,"not found in toppdata.Select an existing column with cluster_col=")
+        raise ValueError("Invalid cluster column:",GROUPBY_COL,"not found in toppdata.Select an existing column with cluster_col=")
+
     if category not in toppdata["Category"].unique():
-        print("Category",category,"not found in the data.Please select one of ",", ".join(toppdata["Category"].unique()))
-    else:
-        print("Please select one of these categories:",", ".join(toppdata["Category"].unique()))
+        raise ValueError("Category",category,"not found in the data.Please select one of ",", ".join(toppdata["Category"].unique()))
+    elif category is None:
+        raise ValueError("Please select one of these categories:",", ".join(toppdata["Category"].unique()))
+
     if clusters is None:
-        if "Clusters" in toppdata.columns:
-            clusters=toppdata["Clusters"].unique()
+        if "Cluster" in toppdata.columns:
+            clusters=toppdata["Cluster"].unique()
+
     tmp_data=toppdata
     if p_val_adj not in ["BH","Bonferroni","BY","none","None","log"]:
         print("P value adjustment not found - using 'BH' by default. For no adjustment, use p_val_adj = 'none'.")
+
     if p_val_adj=="BH":
         p_val_col="QValueFDRBH"
     elif p_val_adj=="Bonferroni":
@@ -78,7 +86,7 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
         else:
             output_dir=save_dir
 
-    if isinstance(clusters, int):
+    if isinstance(clusters, int) or isinstance((clusters, str)):
         clusters = [clusters]
 
     if len(clusters)>1:
@@ -91,7 +99,7 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
             df_C["geneRatio"]=df_C["GenesInTermInQuery"]/df_C["GenesInTerm"]
             df_C=df_C.sort_values(by=p_val_display_column,ascending=False).head(num_terms)
             order_Names=df_C.sort_values("geneRatio")["Name"].unique()
-            df_C["Name"] = pd.Categorical(df_C["Name"], categories=order_Names, ordered=True)
+            df_C["Name"] = Categorical(df_C["Name"], categories=order_Names, ordered=True)
             p=(ggplot(df_C,aes(x="geneRatio",y="Name"))
                + geom_segment(aes(xend=0,yend="Name"))
                + geom_point(mapping=aes(size="GenesInTermInQuery",color=p_val_display_column))
@@ -126,15 +134,13 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
         else:
             return overall_plot_list
     elif len(clusters)==1:
-        pass
         c=clusters[0]
         df_C1 = tmp_data[tmp_data[GROUPBY_COL] == c]
         df_C1 = df_C1[df_C1["Category"] == category]
         df_C1["geneRatio"] = df_C1["GenesInTermInQuery"] / df_C1["GenesInTerm"]
         df_C1 = df_C1.sort_values(by=p_val_display_column, ascending=False).head(num_terms)
-        order_Names = df_C1.sort_values("geneRatio")["Name"].unique()
-        df_C1["Name"] = pd.Categorical(df_C1["Name"], categories=order_Names, ordered=True)
-        single_plot = (ggplot(df_C1, aes(x="geneRatio", y="Name"))
+
+        single_plot = (ggplot(df_C1, aes(x="geneRatio", y="reorder(Name, geneRatio)"))
              + geom_segment(aes(xend=0, yend="Name"))
              + geom_point(mapping=aes(size="GenesInTermInQuery", color=p_val_display_column))
              + scale_color_cmap(name="-Log10(FDR)")
@@ -156,9 +162,7 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
         df_C2 = tmp_data[tmp_data["Category"] == category]
         df_C2["geneRatio"] = df_C2["GenesInTermInQuery"] / df_C2["GenesInTerm"]
         df_C1 = df_C2.sort_values(by=p_val_display_column, ascending=False).head(num_terms)
-        order_Names = df_C1.sort_values("geneRatio")["Name"].unique()
-        df_C1["Name"] = pd.Categorical(df_C1["Name"], categories=order_Names, ordered=True)
-        single_plot = (ggplot(df_C1, aes(x="geneRatio", y="Name"))
+        single_plot = (ggplot(df_C1, aes(x="geneRatio", y="reorder(Name, geneRatio)"))
                        + geom_segment(aes(xend=0, yend="Name"))
                        + geom_point(mapping=aes(size="GenesInTermInQuery", color=p_val_display_column))
                        + scale_color_cmap(name="-Log10(FDR)")
@@ -177,7 +181,9 @@ def topp_plot(toppdata:DataFrame,category:str,clusters:list = None,cluster_col:s
         return single_plot
 
 
-def topp_balloon(toppdata:DataFrame,categories:list = None,balloons:int = 3,x_axis_text_size:int = 6,cluster_col:str = "Cluster",filename:str = None,save:bool = False,height:int = 5,width:int = 10):
+def topp_balloon(toppdata: DataFrame, categories: list = None, balloons: int = 3, x_axis_text_size: int = 6,
+                 cluster_col: str = "Cluster", filename: str = None, save: bool = False, height: int = 5,
+                 width: int = 10):
     '''
     Create a balloon plot from toppdata results
 
@@ -209,7 +215,7 @@ def topp_balloon(toppdata:DataFrame,categories:list = None,balloons:int = 3,x_ax
         df=df.groupby(GROUPBY_COL, group_keys=False).apply(lambda x: x.nlargest(balloons, "nlog10_fdr")).reset_index(drop=True)
         df["geneRatio"] = df["GenesInTermInQuery"] / df["GenesInTerm"]
         order_Names = df.sort_values(GROUPBY_COL)["Name"].dropna().unique()
-        df["Name"]=pd.Categorical(df["Name"], categories=order_Names, ordered=True)
+        df["Name"]=Categorical(df["Name"], categories=order_Names, ordered=True)
         p=(ggplot(df,aes(x="Name",y=GROUPBY_COL))
            + geom_point(aes(size="geneRatio",color="nlog10_fdr"))
            + scale_color_cmap(name="-Log10(FDR)")
