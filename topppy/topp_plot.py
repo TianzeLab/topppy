@@ -87,7 +87,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
         else:
             output_dir=save_dir
 
-    if isinstance(clusters, int) or isinstance((clusters, str)):
+    if isinstance(clusters, int) or isinstance(clusters, str):
         clusters = [clusters]
 
     if len(clusters)>1:
@@ -99,9 +99,8 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
             df_C=df_C[df_C["Category"]==category]
             df_C["geneRatio"]=df_C["GenesInTermInQuery"]/df_C["GenesInTerm"]
             df_C=df_C.sort_values(by=p_val_display_column,ascending=False).head(num_terms)
-            order_Names=df_C.sort_values("geneRatio")["Name"].unique()
-            df_C["Name"] = Categorical(df_C["Name"], categories=order_Names, ordered=True)
-            p=(ggplot(df_C,aes(x="geneRatio",y="Name"))
+
+            p=(ggplot(df_C,aes(x="geneRatio",y="reorder(Name,geneRatio)"))
                + geom_segment(aes(xend=0,yend="Name"))
                + geom_point(mapping=aes(size="GenesInTermInQuery",color=p_val_display_column))
                + scale_color_cmap(name="-Log10(FDR)")
@@ -110,6 +109,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
                + ggtitle(f"Cluster {c}")
                + scale_y_discrete(labels=lambda x:[textwrap.fill(i,20) for i in x])
                + labs(color=color_label,size="Genes from Query\n in Gene Set"))
+            overall_plot_list[c] = p
             if save is True:
                 if file_prefix is None:
                     save_filename=f"{category}_{c}_toppDotPlot.pdf"
@@ -125,8 +125,10 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
                 axes=[axes]
             else:
                 axes=axes.flatten()
-            for ax,p in zip(axes,overall_plot_list):
-                p.draw(ax)
+            for ax,p in zip(axes,overall_plot_list.values()):
+                plt.sca(ax)
+                ax.clear()
+                p.draw()
             for ax in axes[len(overall_plot_list):]:
                 ax.set_visible(False)
             fig.suptitle(category)
