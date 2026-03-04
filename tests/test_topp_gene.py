@@ -64,3 +64,8 @@ def test_topp_fun():
     assert isinstance(toppdata,pd.DataFrame)
     assert 'Cluster' in toppdata.columns
 
+def test_topp_plot():
+    topp_plot(toppdata=topp_data,category="GeneOntologyMolecularFunction",clusters=None,save=True,combine=True,file_prefix="GO_molecular_function")
+
+def test_topp_balloon():
+    topp_balloon(toppdata=topp_data,balloons=3,save=True,filename="Balloon_plot")
