@@ -3,11 +3,9 @@ import numpy as np
 import os
 from pandas import DataFrame, Categorical
 from plotnine import ggplot, geom_segment, aes, geom_point, scale_color_cmap, theme_bw, ylab, ggtitle, scale_y_discrete, \
-    labs, theme, element_text, xlab, scale_x_discrete, element_rect
-import textwrap
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+    labs, theme, element_text, xlab, scale_x_discrete, element_rect,geom_blank
+import textwrap     
+from functools import reduce
 
 def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = None, cluster_col: str = "Cluster",
               num_terms: int = 10, p_val_adj: str = "BH", p_val_display: str = "log",
@@ -121,25 +119,26 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
             if ncols is None:
                 ncols=min(3,len(overall_plot_list))
             nrows = math.ceil(len(overall_plot_list) / ncols)
-            plot_values=list(overall_plot_list.values())
-            combined_plots=None
-            for i in range(0,len(plot_values),ncols):
-                row_plots=plot_values[i:i+ncols]
-                current_row=row_plots[0]
-                for p_next in row_plots[1:]:
-                    current_row=current_row|p_next
-                if combined_plots is None:
-                    combined_plots=current_row
-                else:
-                    combined_plots=combined_plots/current_row
-            plt.ioff()
-            fig=combined_plots.draw(show=False)
-            fig.set_size_inches(width*ncols, height*nrows)
-            fig.suptitle(category,fontsize=16)
+
+            total_cells = ncols * nrows
+            full_list = list(overall_plot_list.values())
+            if len(full_list) < total_cells:
+                blank = ggplot() + geom_blank()
+                full_list += [blank] * (total_cells - len(full_list))
+            
+            rows = []
+            for i in range(0, total_cells, ncols):
+                row_figs = full_list[i : i + ncols]
+                row_combined = reduce(lambda a, b: a | b, row_figs)
+                rows.append(row_combined)
+            
+            final_plot = reduce(lambda a, b: a / b, rows)
+            
+
             if save:
                 save_filename = f"{file_prefix}_combined.pdf"
-                combined_plots.save(os.path.join(output_dir, save_filename), width=width*ncols, height=height*nrows)
-            return combined_plots
+                final_plot.save(os.path.join(output_dir, save_filename), width=width*ncols, height=height*nrows)
+            return final_plot
         else:
             return overall_plot_list
     elif len(clusters)==1:
