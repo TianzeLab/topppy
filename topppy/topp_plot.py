@@ -1,13 +1,13 @@
 import math
-
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 from pandas import DataFrame, Categorical
 from plotnine import ggplot, geom_segment, aes, geom_point, scale_color_cmap, theme_bw, ylab, ggtitle, scale_y_discrete, \
     labs, theme, element_text, xlab, scale_x_discrete, element_rect
 import textwrap
-
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = None, cluster_col: str = "Cluster",
               num_terms: int = 10, p_val_adj: str = "BH", p_val_display: str = "log",
@@ -101,12 +101,13 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
             df_C=df_C.sort_values(by=p_val_display_column,ascending=False).head(num_terms)
 
             p=(ggplot(df_C,aes(x="geneRatio",y="reorder(Name,geneRatio)"))
-               + geom_segment(aes(xend=0,yend="Name"))
+               + geom_segment(aes(xend=0,yend="reorder(Name, geneRatio)"))
                + geom_point(mapping=aes(size="GenesInTermInQuery",color=p_val_display_column))
-               + scale_color_cmap(name="-Log10(FDR)")
+               + scale_color_cmap(name="-Log10(FDR)",cmap_name="plasma")
                + theme_bw()
                + ylab(category)
                + ggtitle(f"Cluster {c}")
+               + theme(axis_text_y=element_text(size=y_axis_text_size))
                + scale_y_discrete(labels=lambda x:[textwrap.fill(i,20) for i in x])
                + labs(color=color_label,size="Genes from Query\n in Gene Set"))
             overall_plot_list[c] = p
@@ -118,21 +119,26 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
                 p.save(os.path.join(output_dir,save_filename),width=width,height=height)
         if combine is True:
             if ncols is None:
-                ncols=np.min(3,len(overall_plot_list))
-            nrows=math.ceil(len(overall_plot_list)/ncols)
-            fig,axes=plt.subplots(nrows=nrows,ncols=ncols,figsize=(width,height))
-            if isinstance(axes,plt.Axes):
-                axes=[axes]
-            else:
-                axes=axes.flatten()
-            for ax,p in zip(axes,overall_plot_list.values()):
-                plt.sca(ax)
-                ax.clear()
-                p.draw()
-            for ax in axes[len(overall_plot_list):]:
-                ax.set_visible(False)
-            fig.suptitle(category)
-            combined_plots=fig
+                ncols=min(3,len(overall_plot_list))
+            nrows = math.ceil(len(overall_plot_list) / ncols)
+            plot_values=list(overall_plot_list.values())
+            combined_plots=None
+            for i in range(0,len(plot_values),ncols):
+                row_plots=plot_values[i:i+ncols]
+                current_row=row_plots[0]
+                for p_next in row_plots[1:]:
+                    current_row=current_row|p_next
+                if combined_plots is None:
+                    combined_plots=current_row
+                else:
+                    combined_plots=combined_plots/current_row
+            plt.ioff()
+            fig=combined_plots.draw(show=False)
+            fig.set_size_inches(width*ncols, height*nrows)
+            fig.suptitle(category,fontsize=16)
+            if save:
+                save_filename = f"{file_prefix}_combined.pdf"
+                combined_plots.save(os.path.join(output_dir, save_filename), width=width*ncols, height=height*nrows)
             return combined_plots
         else:
             return overall_plot_list
@@ -144,9 +150,9 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
         df_C1 = df_C1.sort_values(by=p_val_display_column, ascending=False).head(num_terms)
 
         single_plot = (ggplot(df_C1, aes(x="geneRatio", y="reorder(Name, geneRatio)"))
-             + geom_segment(aes(xend=0, yend="Name"))
+             + geom_segment(aes(xend=0, yend="reorder(Name, geneRatio)"))
              + geom_point(mapping=aes(size="GenesInTermInQuery", color=p_val_display_column))
-             + scale_color_cmap(name="-Log10(FDR)")
+             + scale_color_cmap(name="-Log10(FDR)",cmap_name="plasma")
              + theme_bw()
              + ylab(category)
              + ggtitle(f"Cluster {c}")
@@ -166,9 +172,9 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
         df_C2["geneRatio"] = df_C2["GenesInTermInQuery"] / df_C2["GenesInTerm"]
         df_C1 = df_C2.sort_values(by=p_val_display_column, ascending=False).head(num_terms)
         single_plot = (ggplot(df_C1, aes(x="geneRatio", y="reorder(Name, geneRatio)"))
-                       + geom_segment(aes(xend=0, yend="Name"))
+                       + geom_segment(aes(xend=0, yend="reorder(Name, geneRatio)"))
                        + geom_point(mapping=aes(size="GenesInTermInQuery", color=p_val_display_column))
-                       + scale_color_cmap(name="-Log10(FDR)")
+                       + scale_color_cmap(name="-Log10(FDR)",cmap_name="plasma")
                        + theme_bw()
                        + ylab(category)
                        + theme(axis_text_y=element_text(size=y_axis_text_size))
@@ -221,7 +227,7 @@ def topp_balloon(toppdata: DataFrame, categories: list = None, balloons: int = 3
         df["Name"]=Categorical(df["Name"], categories=order_Names, ordered=True)
         p=(ggplot(df,aes(x="Name",y=GROUPBY_COL))
            + geom_point(aes(size="geneRatio",color="nlog10_fdr"))
-           + scale_color_cmap(name="-Log10(FDR)")
+           + scale_color_cmap(name="-Log10(FDR)",cmap_name="plasma")
            + labs(color="-Log10(FDR)",size="Gene Ratio")
            + xlab(cat)
            + theme_bw()
