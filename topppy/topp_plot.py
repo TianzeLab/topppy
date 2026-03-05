@@ -122,6 +122,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
 
             total_cells = ncols * nrows
             full_list = list(overall_plot_list.values())
+
             if len(full_list) < total_cells:
                 blank = ggplot() + geom_blank()
                 full_list += [blank] * (total_cells - len(full_list))
