@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="topppy",
-    version="0.1.0",
+    version="1.0.0",
     author="Cao Tianze",
     author_email="hnrcao@qq.com",
     description="Python implementation of ToppGene API wrapper",
@@ -24,7 +24,7 @@ setuptools.setup(
     ],
     packages=['topppy'],
     python_requires=">=3.12",
-    install_requires=['pandas>=2.2.0', 'requests>=2.32.0'],
+    install_requires=['pandas>=2.2.0', 'requests>=2.32.0', 'plotnine>=0.15.3'],
     license="MIT",
     keywords=['scToppR', 'ToppGene', 'bioinformatics','pandas'],
     package_data={
