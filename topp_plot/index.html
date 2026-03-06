@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>ToppPlot database function - ToppPy Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "ToppPlot database function";
+        var mkdocs_page_input_path = "topp_plot.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ToppPy Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">ToppPy: Python implementation of ToppGene API wrapper</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data/">Built-in datasets</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../topp_gene/">ToppGene database function</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">ToppPlot database function</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#topppy.topp_plot">topp_plot</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_plot.topp_balloon">topp_balloon</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_plot.topp_plot">topp_plot</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ToppPy Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">ToppPlot database function</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="toppplot-database-function">ToppPlot database function</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="topppy.topp_plot" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">topppy.topp_plot</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_plot.topp_balloon" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">topp_balloon</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">topp_balloon</span><span class="p">(</span><span class="n">toppdata</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">categories</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">balloons</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">x_axis_text_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">cluster_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ggplot</span> <span class="o">|</span> <span class="nb">dict</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a balloon plot from toppdata results</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>toppdata</code></b>
+                  (<code><span title="pandas.DataFrame">DataFrame</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>A toppdata results dataframe</p>
+              </div>
+            </li>
+            <li>
+              <b><code>categories</code></b>
+                  (<code><span title="list">list</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The topp categories to plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>balloons</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>3</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of balloons per group to plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>x_axis_text_size</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>6</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Size of the text on the x axis</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cluster_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;Cluster&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The column name for clusters (default: "Cluster")</p>
+              </div>
+            </li>
+            <li>
+              <b><code>filename</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Filename of the saved balloon plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>save</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Save the balloon plot if TRUE</p>
+              </div>
+            </li>
+            <li>
+              <b><code>height</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>5</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Height of the saved balloon plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>width</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>10</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Width of the saved balloon plot</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_plot.topp_plot" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">topp_plot</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">topp_plot</span><span class="p">(</span><span class="n">toppdata</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">clusters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cluster_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Cluster&#39;</span><span class="p">,</span> <span class="n">num_terms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">p_val_adj</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;BH&#39;</span><span class="p">,</span> <span class="n">p_val_display</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">file_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">y_axis_text_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">combine</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ggplot</span> <span class="o">|</span> <span class="nb">dict</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Create a dotplot from toppdata results</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>toppdata</code></b>
+                  (<code><span title="pandas.DataFrame">DataFrame</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>A toppdata results dataframe</p>
+              </div>
+            </li>
+            <li>
+              <b><code>category</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The topp categories to plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>clusters</code></b>
+                  (<code><span title="list">list</span> | <span title="int">int</span> | <span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The cluster(s) to plot</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cluster_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;Cluster&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The column name for clusters (default: "Cluster")</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_terms</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>10</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The number of terms from the toppdata results to be plotted, per cluster</p>
+              </div>
+            </li>
+            <li>
+              <b><code>p_val_adj</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;BH&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The P-value correction method: "BH", "Bonferroni", "BY", or "none"</p>
+              </div>
+            </li>
+            <li>
+              <b><code>p_val_display</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;log&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If "log", display the p-value in terms of -log10(p_value)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>save</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Whether to save the file automatically</p>
+              </div>
+            </li>
+            <li>
+              <b><code>save_dir</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Directory to save file</p>
+              </div>
+            </li>
+            <li>
+              <b><code>width</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>5</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>width of the saved file (inches)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>height</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>6</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>height of the saved file (inches)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>file_prefix</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>file prefix if saving the plot - the cluster name is also added automatically</p>
+              </div>
+            </li>
+            <li>
+              <b><code>y_axis_text_size</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>8</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Size of the Y axis text - for certain categories, it's helpful to decrease this</p>
+              </div>
+            </li>
+            <li>
+              <b><code>combine</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If TRUE and multiple clusters selected, return a patchwork object of all plots; if FALSE return list of plots</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ncols</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>If patchwork element returned, number of columns for subplots</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../topp_gene/" class="btn btn-neutral float-left" title="ToppGene database function"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../topp_gene/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

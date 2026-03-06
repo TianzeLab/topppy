@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>ToppGene database function - ToppPy Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "ToppGene database function";
+        var mkdocs_page_input_path = "topp_gene.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ToppPy Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">ToppPy: Python implementation of ToppGene API wrapper</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data/">Built-in datasets</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">ToppGene database function</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#topppy.topp_gene">topp_gene</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_gene.get_entrez">get_entrez</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_gene.get_topp_cats">get_topp_cats</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_gene.topp_fun">topp_fun</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#topppy.topp_gene.topp_save">topp_save</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../topp_plot/">ToppPlot database function</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ToppPy Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">ToppGene database function</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="toppgene-database-function">ToppGene database function</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="topppy.topp_gene" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">topppy.topp_gene</span>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_gene.get_entrez" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_entrez</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_entrez</span><span class="p">(</span><span class="n">genes</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert genes into Entrez format</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>genes</code></b>
+                  (<code><span title="list">list</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>A list of genes</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns: a vector of genes in Entrez format</p>
+<p>Examples:</p>
+<pre><code>from topppy import get_entrez
+get_entrez(genes)
+</code></pre>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_gene.get_topp_cats" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">get_topp_cats</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_topp_cats</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Get a list of ToppFun categories</p>
+<p>Returns: a list</p>
+<p>Examples:</p>
+<pre><code>from topppy import get_topp_cats
+get_topp_cats()
+</code></pre>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_gene.topp_fun" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">topp_fun</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">topp_fun</span><span class="p">(</span><span class="n">markers</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">topp_categories</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cluster_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cluster&#39;</span><span class="p">,</span> <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="n">p_val_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;adj_p_val_col&#39;</span><span class="p">,</span> <span class="n">logFC_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;avg_logFC&#39;</span><span class="p">,</span> <span class="n">num_genes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">pval_cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">fc_cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fc_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;ALL&#39;</span><span class="p">,</span> <span class="n">clusters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">correction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;FDR&#39;</span><span class="p">,</span> <span class="n">key_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;SYMBOL&#39;</span><span class="p">,</span> <span class="n">min_genes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_genes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>The topp_fun() function takes a DataFrame and selects genes to use in querying ToppGene.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>markers</code></b>
+                  (<code><span title="pandas.DataFrame">DataFrame</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>A vector of markers or DataFrame with columns as cluster labels</p>
+              </div>
+            </li>
+            <li>
+              <b><code>topp_categories</code></b>
+                  (<code><span title="list">list</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>A string or vector with specific toppfun categories for the query</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cluster_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;cluster&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column name for the groups of cells (e.g. cluster or celltype)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>gene_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;gene&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column name for genes (e.g. gene or feature)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>p_val_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;adj_p_val_col&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column name for the p-value or adjusted p-value (preferred)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>logFC_col</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;avg_logFC&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Column name for the avg log FC column</p>
+              </div>
+            </li>
+            <li>
+              <b><code>num_genes</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>1000</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Number of genes per group to use for toppGene query</p>
+              </div>
+            </li>
+            <li>
+              <b><code>pval_cutoff</code></b>
+                  (<code><span title="float">float</span></code>, default:
+                      <code>0.5</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>(adjusted) P-value cutoff for filtering differentially expressed genes</p>
+              </div>
+            </li>
+            <li>
+              <b><code>fc_cutoff</code></b>
+                  (<code><span title="float">float</span></code>, default:
+                      <code>0</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Avg log fold change cutoff for filtering differentially expressed genes</p>
+              </div>
+            </li>
+            <li>
+              <b><code>fc_filter</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;ALL&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Include "ALL" genes, or only "UPREG" or "DOWNREG" for each cluster</p>
+              </div>
+            </li>
+            <li>
+              <b><code>clusters</code></b>
+                  (<code><span title="list">list</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Which clusters to include in toppGene query</p>
+              </div>
+            </li>
+            <li>
+              <b><code>correction</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;FDR&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>P-value correction method ("FDR" is "BH")</p>
+              </div>
+            </li>
+            <li>
+              <b><code>key_type</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;SYMBOL&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Gene name format</p>
+              </div>
+            </li>
+            <li>
+              <b><code>min_genes</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>2</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Minimum number of genes to match in a query</p>
+              </div>
+            </li>
+            <li>
+              <b><code>max_genes</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>1500</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Maximum number of genes to match in a query</p>
+              </div>
+            </li>
+            <li>
+              <b><code>max_results</code></b>
+                  (<code><span title="int">int</span></code>, default:
+                      <code>50</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Maximum number of results per cluster</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns: DataFrame</p>
+<p>Examples:</p>
+<pre><code>from topppy import *
+toppdata=topp_fun(ifnb_de,topp_categories=None,cluster_col='celltype',gene_col='gene',p_val_col='p_val_adj',logFC_col='avg_log2FC')
+</code></pre>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="topppy.topp_gene.topp_save" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">topp_save</span>
+
+
+</h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">topp_save</span><span class="p">(</span><span class="n">topp_data</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;xlsx&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Save topp_data results (optionally) split by celltype/cluster</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>topp_data</code></b>
+                  (<code><span title="pandas.DataFrame">DataFrame</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Results from toppFun as a dataframe</p>
+              </div>
+            </li>
+            <li>
+              <b><code>filename</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>File name prefix for each split file. Default: Current working directory</p>
+              </div>
+            </li>
+            <li>
+              <b><code>save_dir</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The directory to save files. Default: $HOME</p>
+              </div>
+            </li>
+            <li>
+              <b><code>split</code></b>
+                  (<code><span title="bool">bool</span></code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Boolean, whether to split the dataframe by celltype/cluster. Default: False</p>
+              </div>
+            </li>
+            <li>
+              <b><code>format</code></b>
+                  (<code><span title="str">str</span></code>, default:
+                      <code>&#39;xlsx&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Saved file format, one of ["xlsx", "csv", "tsv"]. Default: "xlsx"</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>        <p>Returns: None</p>
+<p>Examples:</p>
+<pre><code>from topppy import topp_save, topp_data
+topp_save(topp_data, filename="toppFun_results", split = True, format = "xlsx")
+</code></pre>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../data/" class="btn btn-neutral float-left" title="Built-in datasets"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../topp_plot/" class="btn btn-neutral float-right" title="ToppPlot database function">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../data/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../topp_plot/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
