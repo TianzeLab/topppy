@@ -9,4 +9,4 @@ pip install topppy
 ```
 
 ## Documentation
-- Online Docs: [GitHub Pages](tianzelab.github.io/topppy/)
+- Online Docs: [GitHub Pages](https://tianzelab.github.io/topppy/)
