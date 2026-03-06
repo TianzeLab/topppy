@@ -32,7 +32,7 @@ def topp_save(topp_data: DataFrame, filename:str = None, save_dir:str = None, sp
     Save topp_data results (optionally) split by celltype/cluster
 
     Args:
-        topp_data: Results from toppFun as a dataframe
+        topp_data: Results from topp_fun as a dataframe
         filename: File name prefix for each split file. Default: Current working directory
         save_dir: The directory to save files. Default: $HOME
         split: Boolean, whether to split the dataframe by celltype/cluster. Default: False

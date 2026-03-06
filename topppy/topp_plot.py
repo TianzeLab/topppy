@@ -33,6 +33,11 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
 
     Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects
 
+    Examples:
+
+        from topppy import *
+        topp_plot(topp_data,category="GeneOntologyMolecularFunction",clusters=0,save=False,file_prefix="MF_cluster0")
+
     '''
     test_cols=["Category","Name","PValue","GenesInTerm","GenesInQuery","GenesInTermInQuery"]
     for t in test_cols:
@@ -134,11 +139,7 @@ def topp_plot(toppdata: DataFrame, category: str, clusters: list | int | str = N
                 rows.append(row_combined)
             
             final_plot = reduce(lambda a, b: a / b, rows)
-            
 
-            if save:
-                save_filename = f"{file_prefix}_combined.pdf"
-                final_plot.save(os.path.join(output_dir, save_filename), width=width*ncols, height=height*nrows)
             return final_plot
         else:
             return overall_plot_list
@@ -208,6 +209,11 @@ def topp_balloon(toppdata: DataFrame, categories: list = None, balloons: int = 3
         width: Width of the saved balloon plot
 
     Returns: A ggplot object or a dict where the keys are the names of clusters and the values are ggplot objects
+
+    Examples:
+
+        from topppy import *
+        topp_balloon(topp_data, balloons = 3, save = True, filename = "Balloon_plot")
 
     '''
     if categories is None:
