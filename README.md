@@ -7,3 +7,6 @@ ToppPy is a Python package that enables seamless, workflow-based interaction wit
 ```
 pip install topppy
 ```
+
+## Documentation
+- Online Docs: [GitHub Pages](tianzelab.github.io/topppy/)
