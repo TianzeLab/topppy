@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="topppy",
-    version="1.0.0",
+    version="1.0.1",
     author="Cao Tianze",
     author_email="hnrcao@qq.com",
     description="Python implementation of ToppGene API wrapper",
